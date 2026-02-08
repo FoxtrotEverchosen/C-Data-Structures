@@ -16,9 +16,14 @@ void new_vec(vec *v){
 
 void append_vec(vec *v, int value){
     if(v->len == v->capacity){
-        realloc(v->data, v->capacity * 2 * sizeof(int));
+        int *new_data = realloc(v->data, v->capacity * 2 * sizeof(int));
+        if (new_data == NULL) {
+            printf("Failed to reallocate memory\n");
+            exit(1);
+        }
+        v->data = new_data;
+        v->capacity *= 2;
     }
-
     v->data[v->len++] = value;
 }
 
@@ -31,4 +36,13 @@ void drop_vec(vec *v){
 
 unsigned int get_vec_len(vec *v){
     return v->len;
+}
+
+int get_vec_item(vec *v, int index){
+    if(index > v->len - 1){
+        printf("Requested index out of bounds of vec");
+        exit(1);
+    }
+
+    return v->data[index];
 }

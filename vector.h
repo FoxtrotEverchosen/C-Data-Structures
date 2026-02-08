@@ -11,5 +11,6 @@ void new_vec(vec *v);
 void append_vec(vec *v, int data);
 void drop_vec(vec *v);
 unsigned int get_vec_len(vec *v);
+int get_vec_item(vec *v, int index);
 
 #endif
