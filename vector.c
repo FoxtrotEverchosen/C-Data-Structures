@@ -39,7 +39,7 @@ unsigned int get_vec_len(vec *v){
 }
 
 int get_vec_item(vec *v, int index){
-    if(index > v->len - 1){
+    if(index < 0 || index > v->len - 1){
         printf("Requested index out of bounds of vec");
         exit(1);
     }
