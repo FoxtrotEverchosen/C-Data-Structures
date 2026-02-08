@@ -3,10 +3,21 @@
 #include "vector.h"
 
 void new_vec(vec *v){
-    unsigned int DEFAULT_SIZE = 2;
+    unsigned int const DEFAULT_SIZE = 2;
     v->capacity = DEFAULT_SIZE;
     v->len = 0;
     v->data = (int *) malloc(DEFAULT_SIZE * sizeof(int));
+    
+    if(v->data == NULL){
+        printf("Failed to allocate memory\n");
+        exit(1);
+    }
+}
+
+void new_vec_with_capacity(vec *v, int capacity){
+    v->capacity = capacity;
+    v->len = 0;
+    v->data = (int *) malloc(capacity * sizeof(int));
     
     if(v->data == NULL){
         printf("Failed to allocate memory\n");
@@ -25,6 +36,31 @@ void append_vec(vec *v, int value){
         v->capacity *= 2;
     }
     v->data[v->len++] = value;
+}
+
+void concat_vec(vec *dest, vec *src){
+    int new_size = dest->len + src->len; 
+    if(new_size > dest->capacity){
+        int *new_data = realloc(dest->data, new_size * sizeof(int));
+        
+        if (new_data == NULL) {
+                printf("Failed to reallocate memory\n");
+                exit(1);
+        }
+
+        dest->data = new_data;
+    }
+
+    int* p_dest = dest->data + dest->len;
+    int* p_src = src->data;
+    
+    for(int i=0; i<src->len; i++){
+        *(p_dest + i) = *(p_src + i);
+        dest->len++; 
+    }
+    dest->capacity = new_size;
+    
+    drop_vec(src);
 }
 
 void drop_vec(vec *v){
