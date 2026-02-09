@@ -2,53 +2,60 @@
 #include <stdio.h>
 #include "vector.h"
 
-void init_vec(vec *v){
+int init_vec(vec *v){
     unsigned int const DEFAULT_SIZE = 2;
     v->capacity = DEFAULT_SIZE;
     v->len = 0;
-    v->data = (int *) malloc(DEFAULT_SIZE * sizeof(int));
+    v->data = malloc(DEFAULT_SIZE * sizeof(int));
     
     if(v->data == NULL){
-        printf("Failed to allocate memory\n");
-        exit(1);
+        return 1;
     }
+
+    return 0;
 }
 
-void init_vec_with_capacity(vec *v, int capacity){
+int init_vec_with_capacity(vec *v, int capacity){
+    if(capacity <= 0){
+        return 1;
+    }
+
     v->capacity = capacity;
     v->len = 0;
-    v->data = (int *) malloc(capacity * sizeof(int));
+    v->data = malloc(capacity * sizeof(int));
     
     if(v->data == NULL){
-        printf("Failed to allocate memory\n");
-        exit(1);
+        return 1;
     }
+
+    return 0;
 }
 
-void append_vec(vec *v, int value){
+int append_vec(vec *v, int value){
     if(v->len == v->capacity){
+        int new_capacity = v->capacity == 0 ? 2 : v->capacity * 2;
         int *new_data = realloc(v->data, v->capacity * 2 * sizeof(int));
         if (new_data == NULL) {
-            printf("Failed to reallocate memory\n");
-            exit(1);
+            return 1;
         }
         v->data = new_data;
-        v->capacity *= 2;
+        v->capacity - new_capacity;
     }
     v->data[v->len++] = value;
+    return 0;
 }
 
-void concat_vec(vec *dest, vec *src){
+int concat_vec(vec *dest, vec *src){
     int new_size = dest->len + src->len; 
     if(new_size > dest->capacity){
         int *new_data = realloc(dest->data, new_size * sizeof(int));
         
         if (new_data == NULL) {
-                printf("Failed to reallocate memory\n");
-                exit(1);
+                return 1;
         }
 
         dest->data = new_data;
+        dest->capacity = new_size;
     }
 
     int* p_dest = dest->data + dest->len;
@@ -58,9 +65,8 @@ void concat_vec(vec *dest, vec *src){
         *(p_dest + i) = *(p_src + i);
         dest->len++; 
     }
-    dest->capacity = new_size;
     
-    drop_vec(src);
+    return 0;
 }
 
 void drop_vec(vec *v){
@@ -74,11 +80,12 @@ unsigned int get_vec_len(vec *v){
     return v->len;
 }
 
-int get_vec_item(vec *v, int index){
+int get_vec_item(vec *v, int index, int *out){
+    
     if(index < 0 || index > v->len - 1){
-        printf("Requested index out of bounds of vec");
-        exit(1);
+        return 1;
     }
 
-    return v->data[index];
+    *out = v->data[index];
+    return 0;
 }

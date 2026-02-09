@@ -7,12 +7,12 @@ typedef struct{
     int* data;
 }vec;
 
-void init_vec(vec *v);
-void append_vec(vec *v, int data);
+int init_vec(vec *v);
+int append_vec(vec *v, int data);
 void drop_vec(vec *v);
 unsigned int get_vec_len(vec *v);
-int get_vec_item(vec *v, int index);
-void concat_vec(vec *dest, vec *src);
-void init_vec_with_capacity(vec *v, int capacity);
+int get_vec_item(vec *v, int index, int *out);
+int concat_vec(vec *dest, vec *src);
+int init_vec_with_capacity(vec *v, int capacity);
 
 #endif
