@@ -32,7 +32,15 @@ int init_stack_with_capacity(stack *s, int capacity){
 
 int push(stack *s, int value){
     if(s->size == s->capacity){
-        return 1;
+        int new_capacity = s->capacity == 0 ? 2 : s->capacity * 2;
+        int* new_data = realloc(s->data, new_capacity * sizeof(int));
+        
+        if(new_data == NULL){
+            return 1;
+        }
+        
+        s->capacity = new_capacity;
+        s->data = new_data;
     }
 
     s->data[s->size++] = value;
@@ -45,6 +53,18 @@ int pop(stack *s, int *out){
     }
 
     *out = s->data[--s->size];
+
+    if(s->size > 0 && s->size * 4 < s->capacity){
+        int new_capacity = s->capacity / 2;
+
+        int* new_data = realloc(s->data, new_capacity * sizeof(int));
+
+        if(new_data != NULL){
+            s->data = new_data;
+            s->capacity = new_capacity;
+        }
+    }
+
     return 0;
 }
 
