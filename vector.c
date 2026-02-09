@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "vector.h"
 
-void new_vec(vec *v){
+void init_vec(vec *v){
     unsigned int const DEFAULT_SIZE = 2;
     v->capacity = DEFAULT_SIZE;
     v->len = 0;
@@ -14,7 +14,7 @@ void new_vec(vec *v){
     }
 }
 
-void new_vec_with_capacity(vec *v, int capacity){
+void init_vec_with_capacity(vec *v, int capacity){
     v->capacity = capacity;
     v->len = 0;
     v->data = (int *) malloc(capacity * sizeof(int));
