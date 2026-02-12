@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <stdint.h>
 
 typedef struct{
     uint64_t * data;
