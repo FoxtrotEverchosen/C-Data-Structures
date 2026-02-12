@@ -31,6 +31,15 @@ static int tests_failed = 0;
     }                                                       \
 } while (0)
 
+#define ASSERT_EQ_SIZE_T(expected, actual) do {             \
+    if ((expected) != (actual)) {                           \
+        printf("  Expected %zu, got %zu\n",                 \
+               (expected), (actual));                       \
+        tests_failed++;                                     \
+        return;                                             \
+    }                                                       \
+} while (0)
+
 static inline int TEST_SUMMARY(void) {
     printf("\n=================================\n");
     printf("Tests run: %d\n", tests_run);
