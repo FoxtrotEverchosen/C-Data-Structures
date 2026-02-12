@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
 #include "stack.h"
 
 int init_stack(stack *s){
@@ -14,7 +15,7 @@ int init_stack(stack *s){
     return 0;
 }
 
-int init_stack_with_capacity(stack *s, int capacity){
+int init_stack_with_capacity(stack *s, size_t capacity){
     if(capacity <= 0){
         return 1;
     }
