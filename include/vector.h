@@ -2,17 +2,17 @@
 #define VECTOR_H
 
 typedef struct{
-    unsigned int len;
-    unsigned int capacity;
+    size_t len;
+    size_t capacity;
     int* data;
 }vec;
 
 int init_vec(vec *v);
 int append_vec(vec *v, int data);
 void drop_vec(vec *v);
-unsigned int get_vec_len(vec *v);
-int get_vec_item(vec *v, int index, int *out);
+size_t get_vec_len(vec *v);
+int get_vec_item(vec *v, size_t index, int *out);
 int concat_vec(vec *dest, vec *src);
-int init_vec_with_capacity(vec *v, int capacity);
+int init_vec_with_capacity(vec *v, size_t capacity);
 
 #endif

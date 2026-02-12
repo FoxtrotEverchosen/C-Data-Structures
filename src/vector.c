@@ -15,7 +15,7 @@ int init_vec(vec *v){
     return 0;
 }
 
-int init_vec_with_capacity(vec *v, int capacity){
+int init_vec_with_capacity(vec *v, size_t capacity){
     if(capacity <= 0){
         return 1;
     }
@@ -39,14 +39,14 @@ int append_vec(vec *v, int value){
             return 1;
         }
         v->data = new_data;
-        v->capacity - new_capacity;
+        v->capacity = new_capacity;
     }
     v->data[v->len++] = value;
     return 0;
 }
 
 int concat_vec(vec *dest, vec *src){
-    int new_size = dest->len + src->len; 
+    size_t new_size = dest->len + src->len; 
     if(new_size > dest->capacity){
         int *new_data = realloc(dest->data, new_size * sizeof(int));
         
@@ -61,7 +61,7 @@ int concat_vec(vec *dest, vec *src){
     int* p_dest = dest->data + dest->len;
     int* p_src = src->data;
     
-    for(int i=0; i<src->len; i++){
+    for(size_t i=0; i<src->len; i++){
         *(p_dest + i) = *(p_src + i);
         dest->len++; 
     }
@@ -76,13 +76,12 @@ void drop_vec(vec *v){
     v->data = NULL;
 }
 
-unsigned int get_vec_len(vec *v){
+size_t get_vec_len(vec *v){
     return v->len;
 }
 
-int get_vec_item(vec *v, int index, int *out){
-    
-    if(index < 0 || index > v->len - 1){
+int get_vec_item(vec *v, size_t index, int *out){
+    if(index > v->len - 1){
         return 1;
     }
 
